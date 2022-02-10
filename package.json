@@ -1,0 +1,66 @@
+{
+  "name": "autoupdatertester-nsis",
+  "productName": "AutoUpdater-nsis Tester",
+  "version": "1.0.0",
+  "description": "Test autoUpdater for App packaged as NSIS installer using electron-builder",
+  "main": "main.js",
+  "scripts": {
+    "clean": "rimraf ./out",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "npm run clean && electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.app.autoupdatertester-nsis",
+    "asar": true,
+    "directories": {
+      "output": "out"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "styles.css",
+      "index.html"
+    ],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://localhost:9000/test-bucket2"
+      }
+    ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "uninstallDisplayName": "${productName}",
+      "deleteAppDataOnUninstall": true
+    },
+    "win": {
+      "icon": "./app.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    }
+  },
+  "author": "QM",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^17.0.0",
+    "electron-builder": "^22.14.5",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.4.5",
+    "electron-updater": "^4.6.5"
+  }
+}

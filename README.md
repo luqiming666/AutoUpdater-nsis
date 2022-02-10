@@ -1,2 +1,2 @@
 # AutoUpdater-nsis
-Test autoUpdater for App packaged as NSIS installer using electron-builder
+Test autoUpdater for Electron App packaged as NSIS installer using electron-builder

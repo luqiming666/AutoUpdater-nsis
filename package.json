@@ -1,7 +1,7 @@
 {
   "name": "autoupdatertester-nsis",
   "productName": "AutoUpdater-nsis Tester",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Test autoUpdater for App packaged as NSIS installer using electron-builder",
   "main": "main.js",
   "scripts": {

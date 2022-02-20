@@ -4,7 +4,7 @@
 // https://www.electron.build/auto-update
 // https://github.com/iffy/electron-updater-example
 
-const { app, BrowserWindow, dialog } = require('electron')
+const { app, ipcMain, BrowserWindow, dialog } = require('electron')
 const path = require('path')
 
 // Log file location:
@@ -69,6 +69,23 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
+// Response to the renderer
+ipcMain.handle('call-for-action1', async (_event, param1) => {
+  log.info('call-for-action1', param1);
+  return Promise.resolve('call-for-action1 is processed. Parameters: ' + param1);
+});
+ipcMain.handle('call-for-action2', async (_event, param1, param2) => {
+  return Promise.resolve('call-for-action2 is processed. Parameters: ' + param1 + ' ' + param2);
+});
+ipcMain.on('call-for-action3', (_event, param1) => {
+  _event.returnValue = 'call-for-action3 is processed. In: ' + param1 + ' Out: pong!';
+});
+ipcMain.on('call-for-action4', async (_event, param1) => {
+  var ret = 'call-for-action4 is processed. In: ' + param1 + ' Out: bang!';
+  _event.reply('call-for-action4-async-reply', ret);
+});
+
+
 function checkForUpdates() {
   log.info('Set up event listeners...')
   autoUpdater.on('checking-for-update', () => {
@@ -91,7 +108,7 @@ function checkForUpdates() {
   })
   autoUpdater.on('update-downloaded', (info) => {
     log.info('Update downloaded.')
-    
+
     // The update will automatically be installed the next time the
     // app launches. If you want to, you can force the installation
     // now:
@@ -102,7 +119,7 @@ function checkForUpdates() {
       message: process.platform === 'win32' ? info.releaseNotes : info.releaseName,
       detail: `A new version (${info.version}) has been downloaded. Restart the application to apply the updates.`
     }
-  
+
     dialog.showMessageBox(dialogOpts).then((returnValue) => {
       if (returnValue.response === 0) autoUpdater.quitAndInstall()
     })

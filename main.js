@@ -13,8 +13,8 @@ const log = require('electron-log')
 
 const { autoUpdater } = require("electron-updater")
 autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = "info"
-log.info(`App v${app.getVersion()} starting...`);
+autoUpdater.logger.transports.file.level = 'info'
+log.info(`App v${app.getVersion()} starting...`)
 
 // autoUpdate can only be tested in production mode
 const isDev = require('electron-is-dev')
@@ -49,7 +49,9 @@ function createWindow() {
 app.whenReady().then(() => {
 
   createWindow()
-  checkForUpdates()
+  if (!isDev) {
+    checkForUpdates()
+  }
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

@@ -9,12 +9,13 @@ const path = require('path')
 
 // Log file location:
 //  Windows: %AppData%\{app name}\logs\{process type}.log
+//  levels: error, warn, info, verbose, debug, silly... Set false to disable logging.
 const log = require('electron-log')
+log.transports.file.level = 'info'
+log.info(`App v${app.getVersion()} starting...`)
 
 const { autoUpdater } = require("electron-updater")
 autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = 'info'
-log.info(`App v${app.getVersion()} starting...`)
 
 // autoUpdate can only be tested in production mode
 const isDev = require('electron-is-dev')

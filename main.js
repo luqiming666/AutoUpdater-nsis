@@ -25,23 +25,30 @@ if (isDev) {
 	log.info('Running in production')
 }
 
-let win;
+let win = null;
 
 function createWindow() {
- const windowOptions = {
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+  const windowOptions = {
+   show: false,
+   width: 800,
+   height: 600,
+   webPreferences: {
+     preload: path.join(__dirname, 'preload.js')
     }
   }
   win = new BrowserWindow(windowOptions)
   win.on('closed', () => {
     win = null;
   });
+  win.on('ready-to-show', () => {
+    win.webContents.send('message-from-main', 'ready-to-show: begin');
+    win.show();
+    win.webContents.send('message-from-main', 'ready-to-show: end');
+  });
+
   win.setMenu(null) // We don't need the menu bar
   win.loadFile('index.html')
-  //win.webContents.openDevTools()
+  win.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished

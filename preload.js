@@ -23,3 +23,10 @@ ipcRenderer.on('call-for-action4-async-reply', (event, arg) => {
   var container = document.getElementById('msg4');
   container.innerHTML = arg;
 })
+
+ipcRenderer.on('message-from-main', function(event, text) {
+  var divMsg5 = document.getElementById('msg5');
+  var message = document.createElement('div');
+  message.innerHTML = text;
+  divMsg5.appendChild(message);
+})

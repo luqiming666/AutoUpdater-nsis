@@ -132,6 +132,10 @@ function checkForUpdates() {
     })
   })
 
+  // More properties on autoUpdater, see https://www.electron.build/auto-update#AppUpdater
+  //autoUpdater.autoDownload = true
+  //autoUpdater.autoInstallOnAppQuit = true
+
   // No debugging! Check main.log for details.
   // Ready? Go!
   log.info('checkForUpdates() -- begin')
